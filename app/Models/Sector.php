@@ -9,7 +9,7 @@ class Sector extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['codigo', 'nombre'];
+    protected $fillable = ['id', 'nombre'];
     
     public function socios()
     {

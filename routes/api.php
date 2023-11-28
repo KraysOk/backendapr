@@ -11,6 +11,7 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\LecturaAguaController;
 use App\Http\Controllers\TramoController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\MedidorController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,13 +27,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::get('/socio', [SocioController::class, 'index']);
+Route::get('/socio', [SocioController::class, 'index']);
 Route::post('/socio', [SocioController::class, 'store']);
 Route::delete('/socio/{id}', [SocioController::class, 'destroy']);
 Route::get('/socio/{proceso}', [SocioController::class, 'getSocios']);
+Route::get('/socio/{id}/medidores',  [SocioController::class, 'getMedidoresBySocio']);
+
 
 Route::get('/sectores', [SectorController::class, 'index']);
 Route::post('/sectores', [SectorController::class, 'store']);
+Route::delete('/sectores/{id}', [SectorController::class, 'destroy']);
+Route::put('/sectores/{id}', [SectorController::class, 'update']);
 
 Route::apiResource('servicios', ServicioController::class);
 
@@ -52,3 +57,6 @@ Route::get('/socio-servicio-proceso/{proceso}/{socio}', [ServicioController::cla
 
 Route::post('/pagos', [PagoController::class, 'store']);
 Route::get('/socios-with-pagos', [SocioController::class, 'getSociosWithPagos']);
+
+Route::post('/medidor', [MedidorController::class, 'store']);
+Route::get('/medidor', [MedidorController::class, 'index']);

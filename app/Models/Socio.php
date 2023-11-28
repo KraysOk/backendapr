@@ -10,7 +10,7 @@ class Socio extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'apellido', 'email', 'telefono', 'sector_id'];
+    protected $fillable = ['rut','nombre', 'apellido', 'email', 'telefono', 'sector_id'];
 
     public function sector()
     {

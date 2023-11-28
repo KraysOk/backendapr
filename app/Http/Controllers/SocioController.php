@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Socio;
+use App\Models\Medidor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -127,6 +128,11 @@ public function getSociosWithPagos()
     return response()->json($sociosWithPagos);
 }
 
+public function getMedidoresBySocio($id) {
+    // Lógica para obtener los medidores asociados al socio con ID $id
+    $medidores = Medidor::where('socio_id', $id)->get();
+    return response()->json($medidores);
+}
 
 
 }

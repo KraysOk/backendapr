@@ -23,7 +23,14 @@ class SectorController extends Controller
      */
     public function store(Request $request)
     {
-        $sector = Sector::create($request->all());
+        $maxId = Sector::max('id');
+        $nextId = $maxId ? $maxId + 1 : 1;
+        
+        echo "max ".$nextId;
+        $data = $request->all();
+        $data['id'] = $nextId;
+    
+        $sector = Sector::create($data);
         return response()->json($sector, 201);
     }
 
@@ -40,7 +47,14 @@ class SectorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $sector = Sector::find($id);
+    
+        if ($sector) {
+            $sector->update($request->all());
+            return response()->json($sector, 200);
+        } else {
+            return response()->json(['error' => 'Sector no encontrado'], 404);
+        }
     }
 
     /**
@@ -48,6 +62,13 @@ class SectorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $sector = Sector::find($id);
+
+        if ($sector) {
+            $sector->delete();
+            return response()->json(null, 204);  // Devuelve un código 204 (Sin contenido) en caso de éxito.
+        } else {
+            return response()->json(['error' => 'Sector no encontrado'], 404);
+        }
     }
 }
