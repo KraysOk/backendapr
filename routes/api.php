@@ -27,11 +27,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/socio', [SocioController::class, 'index']);
+#Route::get('/socio', [SocioController::class, 'index']);
+Route::get('/socio', [SocioController::class, 'getSociosModulo']);
 Route::post('/socio', [SocioController::class, 'store']);
 Route::delete('/socio/{id}', [SocioController::class, 'destroy']);
 Route::get('/socio/{proceso}', [SocioController::class, 'getSocios']);
 Route::get('/socio/{id}/medidores',  [SocioController::class, 'getMedidoresBySocio']);
+Route::put('/socio/{id}', [SocioController::class, 'update']);
 
 
 Route::get('/sectores', [SectorController::class, 'index']);

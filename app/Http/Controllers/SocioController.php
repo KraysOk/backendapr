@@ -134,5 +134,59 @@ public function getMedidoresBySocio($id) {
     return response()->json($medidores);
 }
 
+public function update(Request $request, $id)
+{
+    // Validación de la solicitud
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'apellido' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'sector_id' => 'required|exists:sectors,id',
+        // Otras reglas de validación según tus necesidades
+    ]);
+
+    // Encuentra el socio por ID
+    $socio = Socio::findOrFail($id);
+
+    // Actualiza los campos con los valores proporcionados en la solicitud
+    $socio->update([
+        'nombre' => $request->input('nombre'),
+        'apellido' => $request->input('apellido'),
+        'email' => $request->input('email'),
+        'telefono' => $request->input('telefono'),
+        'sector_id' => $request->input('sector_id'),
+        'rut' => $request->input('rut'),
+        // Otros campos que puedan necesitar actualización
+    ]);
+
+    // Puedes devolver una respuesta JSON u otra respuesta según tus necesidades
+    return response()->json(['message' => 'Socio actualizado correctamente']);
+}
+
+public function getSociosModulo(Request $request)
+{
+    // Obtiene los parámetros de consulta
+    $nombre = $request->query('nombre');
+    $sectorId = $request->query('sector_id');
+
+    // Inicia la consulta Eloquent
+    $query = Socio::query();
+
+    // Aplica los filtros si están presentes
+    if ($nombre) {
+        $query->where('nombre', 'like', '%' . $nombre . '%');
+    }
+
+    if ($sectorId) {
+        $query->where('sector_id', $sectorId);
+    }
+
+    // Obtiene los socios filtrados
+    $socios = $query->with('sector')->get();
+
+    // Puedes devolver los resultados como JSON
+    return response()->json($socios);
+}
+
 
 }
